@@ -1,5 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import { Post } from "src/posts/posts.model";
 import { Role } from "src/roles/roles.model";
 import { UserRoles } from "src/user-roles/user-roles.model";
 
@@ -19,7 +27,7 @@ export class User extends Model<User, UserCreationAttrs> {
   })
   id: number;
 
-  @ApiProperty({example: 'user@mail.ru', description: 'User e-mail address'})
+  @ApiProperty({ example: "user@mail.ru", description: "User e-mail address" })
   @Column({
     type: DataType.STRING,
     unique: true,
@@ -27,21 +35,21 @@ export class User extends Model<User, UserCreationAttrs> {
   })
   email: string;
 
-  @ApiProperty({example: 'pass1234', description: 'User password'})
+  @ApiProperty({ example: "pass1234", description: "User password" })
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   password: string;
 
-  @ApiProperty({example: true, description: 'Banned user or not banned'})
+  @ApiProperty({ example: true, description: "Banned user or not banned" })
   @Column({
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
   banned: boolean;
 
-  @ApiProperty({example: 'Misbehavior', description: 'Reason for the ban'})
+  @ApiProperty({ example: "Misbehavior", description: "Reason for the ban" })
   @Column({
     type: DataType.STRING,
     allowNull: true,
@@ -49,5 +57,8 @@ export class User extends Model<User, UserCreationAttrs> {
   banReason: string;
 
   @BelongsToMany(() => Role, () => UserRoles)
-  roles: Role[]
+  roles: Role[];
+
+  @HasMany(() => Post)
+  posts: Post[];
 }

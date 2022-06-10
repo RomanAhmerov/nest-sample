@@ -4,7 +4,7 @@ import { RolesService } from "./roles.service";
 
 @Controller("roles")
 export class RolesController {
-  // Infective dependency
+  // Injective dependency
   constructor(private roleService: RolesService) {}
 
   @Post()
